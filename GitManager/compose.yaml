@@ -1,0 +1,6 @@
+﻿services:
+  gitmanagerapi:
+    image: gitmanagerapi
+    build:
+      context: .
+      dockerfile: GitManagerApi/Dockerfile
