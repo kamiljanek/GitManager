@@ -4,3 +4,15 @@
     build:
       context: .
       dockerfile: GitManagerApi/Dockerfile
+
+  gitmanager.applicaton:
+    image: gitmanager.applicaton
+    build:
+      context: .
+      dockerfile: GitManager.Applicaton/Dockerfile
+
+  gitmanager.application:
+    image: gitmanager.application
+    build:
+      context: .
+      dockerfile: GitManager.Application/Dockerfile
