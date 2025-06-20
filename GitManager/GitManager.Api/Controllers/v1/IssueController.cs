@@ -40,12 +40,12 @@ public class IssueController : BaseController
     /// <param name="id">Existing issue identifier.</param>
     /// <param name="input">Issue data.</param>
     /// <param name="ct">Cancellation token</param>
-    [HttpPut("{id:guid}")]
+    [HttpPut("{id:int}")]
     [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateIssueInput input, CancellationToken ct = default)
+    public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateIssueInput input, CancellationToken ct = default)
     {
         var command = new UpdateIssueCommand(id, input.IssueName, input.IssueDescription);
         await _mediator.Send(command, ct);
@@ -58,11 +58,11 @@ public class IssueController : BaseController
     /// </summary>
     /// <param name="id">Existing issue identifier.</param>
     /// <param name="ct">Cancellation token</param>
-    [HttpPatch("{id:guid}/close")]
+    [HttpPatch("{id:int}/close")]
     [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Close([FromRoute] Guid id, CancellationToken ct = default)
+    public async Task<IActionResult> Close([FromRoute] int id, CancellationToken ct = default)
     {
         var command = new CloseIssueCommand(id);
         await _mediator.Send(command, ct);

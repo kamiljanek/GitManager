@@ -2,6 +2,9 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
+using GitIssueBridge;
+using GitIssueBridge.Options;
+using GitIssueBridge.Services;
 using GitManager.Application.Configuration;
 using GitManager.Infrastructure.Middlewares;
 using GitManagerApi.Filters;
@@ -57,6 +60,17 @@ public class Program
         builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
 
         builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+
+        builder.Services.AddGitIssueManager(options =>
+        {
+            options.AddGitHubConfig(new GitHubOptions {Owner = "kamiljanek", Repo = "GitManager", AccessToken = builder.Configuration["Git:AccessToken"]});
+        });
+        
+        builder.Services.AddScoped<IGitIssueService>(sp =>
+        {
+            var factory = sp.GetRequiredService<GitIssueServiceFactory>();
+            return factory.Create(EGitServiceType.GitHub);
+        });
 
         builder.Services.AddSwaggerGen();
 
